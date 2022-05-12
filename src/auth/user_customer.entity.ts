@@ -8,13 +8,16 @@ import {
 import * as bcrypt from 'bcrypt';
 
 @Entity()
-@Unique(['username'])
+@Unique(['username', 'email'])
 export class UserCustomer extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   username: string;
+
+  @Column()
+  email: string;
 
   @Column()
   password: string;

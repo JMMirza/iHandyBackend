@@ -6,9 +6,11 @@ import { UserCustomerRepository } from './user_customer.respository';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt-straregy';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
+    MailerModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: 'topSecret51',
