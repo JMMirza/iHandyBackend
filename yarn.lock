@@ -621,7 +621,7 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@nestjs-modules/mailer@^1.6.1":
+"@nestjs-modules/mailer@^1.5.1":
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@nestjs-modules/mailer/-/mailer-1.6.1.tgz#741a095e7450a19ec1925b733ce9b98bba0f51fb"
   integrity sha512-ZfJFB3sIQyYr52g7HRUr3VOyZZSPBI+89hcm3hvLvP3flTJs/g98QbZxWR/mH2BzQVHdCAzlP98Qw/KQULPM4w==

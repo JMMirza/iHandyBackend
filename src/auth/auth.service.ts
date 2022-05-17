@@ -16,11 +16,8 @@ export class AuthService {
   ) {}
 
   async signup(authCredentialDto: AuthCredentialsDto): Promise<void> {
-    const token = Math.floor(1000 + Math.random() * 9000).toString();
-    // create user in db
-    // ...
-    // send confirmation mail
     const user = await this.userCustomerRepository.signup(authCredentialDto);
+    const token = user.email_code.toString();
     await this.mailService.sendUserConfirmation(user, token);
   }
 

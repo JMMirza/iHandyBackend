@@ -10,12 +10,17 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 @EntityRepository(UserCustomer)
 export class UserCustomerRepository extends Repository<UserCustomer> {
   async signup(authCredentialsDto: AuthCredentialsDto): Promise<UserCustomer> {
-    const { username, password } = authCredentialsDto;
+    const { username, password, email } = authCredentialsDto;
+    const token = Math.floor(1000 + Math.random() * 9000);
+
     const salt = await bcrypt.genSalt();
     const user = new UserCustomer();
 
     user.username = username;
+    user.email = email;
     user.password = await this.hashPassword(password, salt);
+    user.email_code = token;
+    user.email_verified = false;
     user.salt = salt;
 
     try {
@@ -25,7 +30,8 @@ export class UserCustomerRepository extends Repository<UserCustomer> {
       if (error.code === '23505') {
         throw new ConflictException('Username already exists');
       } else {
-        throw new InternalServerErrorException();
+        console.log(error);
+        throw new InternalServerErrorException(error);
       }
     }
   }

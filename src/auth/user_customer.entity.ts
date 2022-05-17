@@ -25,6 +25,12 @@ export class UserCustomer extends BaseEntity {
   @Column()
   salt: string;
 
+  @Column()
+  email_verified: boolean;
+
+  @Column()
+  email_code: number;
+
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);
     return hash === this.password;

@@ -8,4 +8,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   password: 'postgres',
   database: 'ihandy',
   autoLoadEntities: true,
+  synchronize: true,
 };
