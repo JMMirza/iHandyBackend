@@ -7,17 +7,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt-straregy';
 import { MailModule } from 'src/mail/mail.module';
+import { jwtConfigurations } from '../config/jwt.config';
 
 @Module({
   imports: [
     MailModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: 'topSecret51',
-      signOptions: {
-        expiresIn: 3600,
-      },
-    }),
+    JwtModule.register(jwtConfigurations),
     TypeOrmModule.forFeature([UserCustomerRepository]),
   ],
   controllers: [AuthController],

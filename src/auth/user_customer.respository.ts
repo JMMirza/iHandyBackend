@@ -30,7 +30,6 @@ export class UserCustomerRepository extends Repository<UserCustomer> {
       if (error.code === '23505') {
         throw new ConflictException('Username already exists');
       } else {
-        console.log(error);
         throw new InternalServerErrorException(error);
       }
     }
@@ -38,17 +37,32 @@ export class UserCustomerRepository extends Repository<UserCustomer> {
 
   async validateUserPassword(
     authCredentialDto: AuthCredentialsDto,
-  ): Promise<string> {
+  ): Promise<UserCustomer> {
     const { username, password } = authCredentialDto;
     const user = await this.findOne({ username });
 
     if (user && user.validatePassword(password)) {
-      return user.username;
+      return user;
     } else {
       return null;
     }
   }
 
+  async verifyUser(user: UserCustomer, code) {
+    // code = parseInt(code);
+    console.log(user.email_code == code.code);
+    if (user.email_verified == true) {
+      return { msg: 'User is already verified' };
+    } else {
+      if (user.email_code == code.code) {
+        user.email_verified = true;
+        await user.save();
+        return { msg: 'Congratulations! User is verified' };
+      } else {
+        return null;
+      }
+    }
+  }
   private async hashPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
   }

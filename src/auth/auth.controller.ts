@@ -19,7 +19,7 @@ export class AuthController {
   @Post('/signup')
   signUp(
     @Body(ValidationPipe) authCredentialDto: AuthCredentialsDto,
-  ): Promise<void> {
+  ): Promise<{ accessToken: string }> {
     return this.authService.signup(authCredentialDto);
   }
 
@@ -30,9 +30,10 @@ export class AuthController {
     return this.authService.signin(authCredentialDto);
   }
 
-  @Post('/test')
+  @Post('/verify-code')
   @UseGuards(AuthGuard())
-  test(@GetUser() user: UserCustomer) {
-    console.log(user);
+  test(@Req() req, @Body() code: string) {
+    // console.log(req.user);
+    return this.authService.verifyUser(req.user, code);
   }
 }
