@@ -1,10 +1,11 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Strategy, ExtractJwt } from 'passport-jwt';
-import { JwtPayload } from './jwt-payload.interface';
-import { UserCustomerRepository } from './user_customer.respository';
-import { UserCustomer } from './user_customer.entity';
+import { JwtPayload } from '../payload/jwt-payload.interface';
+import { UserCustomerRepository } from '../../customer/repositories/customer.respository';
+import { Customer } from '../../customer/entities/customer.entity';
 import { UnauthorizedException } from '@nestjs/common';
+import { jwtConfigurations } from '../../config/jwt.config';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -13,11 +14,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'topSecret51',
+      secretOrKey: jwtConfigurations.secret,
     });
   }
 
-  async validate(payload: JwtPayload): Promise<UserCustomer> {
+  async validate(payload: JwtPayload): Promise<Customer> {
     const { username } = payload;
     const user = await this.userCustomerRepository.findOne({ username });
 
