@@ -14,6 +14,7 @@ import { Customer } from './entities/customer.entity';
 import { UserCustomerPersonalInfoDto } from './dto/user-cust-personal-info.dto';
 import { UserSigninDto } from './dto/user-signin.dto';
 import { jwtConfigurations } from 'src/config/jwt.config';
+import { CheckEmailDto } from './dto/check-email.dto';
 
 @Injectable()
 export class CustomerService {
@@ -35,41 +36,8 @@ export class CustomerService {
       secret: jwtConfigurations.secret,
       expiresIn: '300s',
     });
-    await this.mailService.sendUserConfirmation(user, token);
+    await this.mailService.sendUserConfirmation(user, token, false);
     return { accessToken };
-  }
-
-  async signin(userSigninDto: UserSigninDto): Promise<object> {
-    const user = await this.userCustomerRepository.validateUserPassword(
-      userSigninDto,
-    );
-    if (!user) {
-      throw new UnauthorizedException('Invalid Credentials');
-    }
-    try {
-      if (user.email_verified == true) {
-        const username = user.username;
-        const payload: JwtPayload = { username };
-        const accessToken = this.jwtService.sign(payload, {
-          secret: jwtConfigurations.secret,
-          expiresIn: '1hr',
-        });
-        return { accessToken: accessToken, msg: 'User Signed in successfully' };
-      } else {
-        const username = user.username;
-        const payload: JwtPayload = { username };
-        const accessToken = this.jwtService.sign(payload, {
-          secret: jwtConfigurations.secret,
-          expiresIn: '300s',
-        });
-        throw new BadRequestException({
-          accessToken: accessToken,
-          msg: 'User must have to verify its email',
-        });
-      }
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
   }
 
   async verifyUser(user: Customer, code: string) {
@@ -80,12 +48,54 @@ export class CustomerService {
     return result;
   }
 
+  async signin(userSigninDto: UserSigninDto): Promise<object> {
+    const user = await this.userCustomerRepository.validateUserPassword(
+      userSigninDto,
+    );
+    if (!user) {
+      throw new UnauthorizedException('Invalid Credentials');
+    }
+    const username = user.username;
+    const payload: JwtPayload = { username };
+
+    if (user.email_verified == true) {
+      if (user.personal_info == false) {
+        const accessToken = this.jwtService.sign(payload, {
+          secret: jwtConfigurations.secret,
+          expiresIn: '1hr',
+        });
+        throw new BadRequestException({
+          accessToken: accessToken,
+          msg: 'You must have to enter personal information',
+        });
+      }
+      const accessToken = this.jwtService.sign(payload, {
+        secret: jwtConfigurations.secret,
+        expiresIn: '1hr',
+      });
+      return { accessToken: accessToken, msg: 'User Signed in successfully' };
+    } else {
+      const accessToken = this.jwtService.sign(payload, {
+        secret: jwtConfigurations.secret,
+        expiresIn: '300s',
+      });
+      throw new BadRequestException({
+        accessToken: accessToken,
+        msg: 'User must have to verify its email',
+      });
+    }
+  }
+
   async resendVerificationCode(user: Customer): Promise<object> {
     const token = Math.floor(1000 + Math.random() * 9000);
     if (user.email_verified == false) {
       user.email_code = token;
       await user.save();
-      await this.mailService.sendUserConfirmation(user, token.toString());
+      await this.mailService.sendUserConfirmation(
+        user,
+        token.toString(),
+        false,
+      );
       return {
         msg: 'Verfication code send successfully. Please check your email again.',
       };
@@ -99,11 +109,28 @@ export class CustomerService {
     userCustomerPersonalInfoDto: UserCustomerPersonalInfoDto,
     profile_picture: string,
   ) {
+    if (user.personal_info == true) {
+      throw new BadRequestException({
+        msg: 'Your personal info is already added',
+      });
+    }
     // this.userCustomerPersonalInfoRepository.addPersonalInfo()
     return this.userCustomerRepository.addPersonalInfo(
       user,
       userCustomerPersonalInfoDto,
       profile_picture,
     );
+  }
+
+  async checkEmail(checkEmail: CheckEmailDto) {
+    const user = await this.userCustomerRepository.checkEmail(checkEmail);
+    const username = user.username;
+    const payload: JwtPayload = { username };
+    const accessToken = this.jwtService.sign(payload, {
+      secret: jwtConfigurations.secret,
+      expiresIn: '600s',
+    });
+    await this.mailService.sendUserConfirmation(user, accessToken, true);
+    return { msg: 'Email sent successfully' };
   }
 }

@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import {
+  BadRequestException,
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -9,6 +10,7 @@ import { AuthCredentialsDto } from '../dto/auth-credentials.dto';
 import { UserCustomerPersonalInfoDto } from '../dto/user-cust-personal-info.dto';
 import { CustomerPersonalInfo } from '../entities/personal_info.entity';
 import { UserSigninDto } from '../dto/user-signin.dto';
+import { CheckEmailDto } from '../dto/check-email.dto';
 
 @EntityRepository(Customer)
 export class UserCustomerRepository extends Repository<Customer> {
@@ -49,7 +51,7 @@ export class UserCustomerRepository extends Repository<Customer> {
     }
   }
 
-  async verifyUser(user: Customer, code) {
+  async verifyUser(user: Customer, code: any) {
     if (user.email_verified == true) {
       return { msg: 'User is already verified' };
     } else {
@@ -85,11 +87,23 @@ export class UserCustomerRepository extends Repository<Customer> {
     personal_info.phone_number = phone_number;
     personal_info.profile_picture = profile_picture;
     personal_info.customer = user;
+    user.personal_info = true;
     try {
       await personal_info.save();
+      await user.save();
+      return { msg: 'Successfully added!!' };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
+  }
+
+  async checkEmail(checkEmail: CheckEmailDto): Promise<Customer> {
+    const { email } = checkEmail;
+    const user = await this.findOne({ email });
+    if (!user) {
+      throw new BadRequestException({ msg: 'User not found' });
+    }
+    return user;
   }
 
   private async hashPassword(password: string, salt: string): Promise<string> {

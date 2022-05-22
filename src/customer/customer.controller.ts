@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Req,
   UploadedFile,
@@ -18,6 +19,7 @@ import { editFileName } from 'src/utils/custom-file-name.utils';
 import { imageFileFilter } from 'src/utils/file-uploading.utils';
 import { UserCustomerPersonalInfoDto } from './dto/user-cust-personal-info.dto';
 import { UserSigninDto } from './dto/user-signin.dto';
+import { CheckEmailDto } from './dto/check-email.dto';
 
 @Controller('customer')
 export class CustomerController {
@@ -70,5 +72,16 @@ export class CustomerController {
       userCustomerPersonalInfoDto,
       file.filename,
     );
+  }
+
+  @Post('/check-email')
+  check_email(@Body(ValidationPipe) checkEmail: CheckEmailDto) {
+    return this.customerService.checkEmail(checkEmail);
+  }
+
+  @Get('/change-password/:token')
+  change_password_ui(@Param('token') token: any) {
+    console.log(token);
+    return;
   }
 }

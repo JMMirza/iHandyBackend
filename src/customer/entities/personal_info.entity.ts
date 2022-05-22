@@ -21,7 +21,7 @@ export class CustomerPersonalInfo extends BaseEntity {
   @Column()
   firstname: string;
 
-  @Column()
+  @Column({ nullable: true })
   othernames: string;
 
   @Column()

@@ -7,6 +7,7 @@ import {
   Unique,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { CustomerPersonalInfo } from './personal_info.entity';
 
 @Entity()
 @Unique(['username', 'email'])
@@ -26,18 +27,21 @@ export class Customer extends BaseEntity {
   @Column()
   salt: string;
 
-  @Column()
+  @Column({ nullable: true, default: false })
   email_verified: boolean;
 
-  @Column()
+  @Column({ nullable: true, default: false })
+  personal_info: boolean;
+
+  @Column({ nullable: true, default: null })
   email_code: number;
 
-  // @OneToOne(
-  //   () => UserCustomerPersonalInfo,
-  //   (userCustomerPersonalInfo: UserCustomerPersonalInfo) =>
-  //     userCustomerPersonalInfo.userCustomer,
-  // )
-  // public userCustomerPersonalInfo: UserCustomerPersonalInfo;
+  @OneToOne(
+    () => CustomerPersonalInfo,
+    (customerPersonalInfo: CustomerPersonalInfo) =>
+      customerPersonalInfo.customer,
+  )
+  public customerPersonalInfo: CustomerPersonalInfo;
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);
