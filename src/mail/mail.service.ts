@@ -12,7 +12,7 @@ export class MailService {
     forgetEmail: boolean,
   ) {
     if (forgetEmail == true) {
-      const url = `http://localhost:3000/customer/change-password/token=${token}`;
+      const url = `http://localhost:3000/customer/change-password/${token}`;
       await this.mailerService.sendMail({
         to: user.email,
         // from: '"Support Team" <support@example.com>', // override default from

@@ -2933,6 +2933,11 @@
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.0.tgz"
   "version" "1.15.0"
 
+"foreachasync@^3.0.0":
+  "integrity" "sha1-VQKYfchxS+M5IJfzLgBxyd7gfPY="
+  "resolved" "https://registry.npmjs.org/foreachasync/-/foreachasync-3.0.0.tgz"
+  "version" "3.0.0"
+
 "fork-ts-checker-webpack-plugin@7.2.3":
   "integrity" "sha512-9v308zIFTIFkWJBN/4N1A5oqm/ed9hWG6GH+KYTCBjYCEJOmHoVtDIWpfrJ0eD6cPB7V53HEVoJ6bL2In8QRaw=="
   "resolved" "https://registry.npmjs.org/fork-ts-checker-webpack-plugin/-/fork-ts-checker-webpack-plugin-7.2.3.tgz"
@@ -3176,7 +3181,7 @@
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz"
   "version" "4.2.10"
 
-"handlebars@^4.7.6", "handlebars@^4.7.7":
+"handlebars@^4.7.6", "handlebars@^4.7.7", "handlebars@4.7.7":
   "integrity" "sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA=="
   "resolved" "https://registry.npmjs.org/handlebars/-/handlebars-4.7.7.tgz"
   "version" "4.7.7"
@@ -3221,6 +3226,14 @@
   "version" "1.0.3"
   dependencies:
     "function-bind" "^1.1.1"
+
+"hbs@^4.2.0":
+  "integrity" "sha512-dQwHnrfWlTk5PvG9+a45GYpg0VpX47ryKF8dULVd6DtwOE6TEcYQXQ5QM6nyOx/h7v3bvEQbdn19EDAcfUAgZg=="
+  "resolved" "https://registry.npmjs.org/hbs/-/hbs-4.2.0.tgz"
+  "version" "4.2.0"
+  dependencies:
+    "handlebars" "4.7.7"
+    "walk" "2.3.15"
 
 "he@^1.2.0", "he@1.2.0":
   "integrity" "sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw=="
@@ -6434,6 +6447,13 @@
   "version" "2.0.0"
   dependencies:
     "xml-name-validator" "^3.0.0"
+
+"walk@2.3.15":
+  "integrity" "sha512-4eRTBZljBfIISK1Vnt69Gvr2w/wc3U6Vtrw7qiN5iqYJPH7LElcYh/iU4XWhdCy2dZqv1ToMyYlybDylfG/5Vg=="
+  "resolved" "https://registry.npmjs.org/walk/-/walk-2.3.15.tgz"
+  "version" "2.3.15"
+  dependencies:
+    "foreachasync" "^3.0.0"
 
 "walker@^1.0.7":
   "integrity" "sha512-ts/8E8l5b7kY0vlWLewOkDXMmPdLcVV4GmOQLyxuSswIJsweeFZtAsMF7k1Nszz+TYBQrlYRmzOnr398y1JemQ=="

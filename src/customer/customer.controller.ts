@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Render,
   Req,
   UploadedFile,
   UseGuards,
@@ -80,8 +81,9 @@ export class CustomerController {
   }
 
   @Get('/change-password/:token')
-  change_password_ui(@Param('token') token: any) {
-    console.log(token);
-    return;
+  @Render('index.hbs')
+  async change_password_ui(@Param('token') token: string) {
+    const result = await this.customerService.checkUser(token);
+    return { message: result };
   }
 }

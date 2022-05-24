@@ -133,4 +133,15 @@ export class CustomerService {
     await this.mailService.sendUserConfirmation(user, accessToken, true);
     return { msg: 'Email sent successfully' };
   }
+
+  async checkUser(accessToken: string) {
+    try {
+      var decoded = this.jwtService.verify(accessToken, {
+        secret: jwtConfigurations.secret,
+      });
+      return decoded.username;
+    } catch (err) {
+      throw new InternalServerErrorException({ msg: err.message });
+    }
+  }
 }
