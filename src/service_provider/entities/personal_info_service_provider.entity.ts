@@ -1,4 +1,4 @@
-import { Customer } from './customer.entity';
+// import { Customer } from './customer.entity';
 import {
   BaseEntity,
   Column,
@@ -38,6 +38,30 @@ export class CustomerPersonalInfo extends BaseEntity {
   @Column()
   profile_picture: string;
 
+  @Column()
+  address: Text;
+
+  @Column()
+  national_identity_number: string;
+
+  @Column()
+  national_identity_front_img: string;
+
+  @Column()
+  national_identity_back_img: string;
+
+  @Column()
+  photo_of_you_card: string;
+
+  @Column()
+  bank_name: string;
+
+  @Column()
+  account_holder_name: string;
+
+  @Column()
+  bank_verification_num: number;
+
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
@@ -51,7 +75,9 @@ export class CustomerPersonalInfo extends BaseEntity {
   })
   public updated_at: Date;
 
-  @OneToOne(() => Customer)
-  @JoinColumn()
-  public customer: Customer;
+  //   @Column()
+
+  //   @OneToOne(() => Customer)
+  //   @JoinColumn()
+  //   public customer: Customer;
 }
