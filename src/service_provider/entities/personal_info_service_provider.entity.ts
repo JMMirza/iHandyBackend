@@ -10,10 +10,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Gender } from '../gender.enum';
+import { ServiceProvider } from './service_provider.entity';
 
 @Entity()
 // @Unique()
-export class CustomerPersonalInfo extends BaseEntity {
+export class ServiceProviderPersonalInfo extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -38,8 +39,8 @@ export class CustomerPersonalInfo extends BaseEntity {
   @Column()
   profile_picture: string;
 
-  @Column()
-  address: Text;
+  @Column('text')
+  address: string;
 
   @Column()
   national_identity_number: string;
@@ -75,9 +76,8 @@ export class CustomerPersonalInfo extends BaseEntity {
   })
   public updated_at: Date;
 
-  //   @Column()
-
-  //   @OneToOne(() => Customer)
-  //   @JoinColumn()
-  //   public customer: Customer;
+  // @Column()
+  @OneToOne(() => ServiceProvider)
+  @JoinColumn()
+  public serviceProvider: ServiceProvider;
 }
