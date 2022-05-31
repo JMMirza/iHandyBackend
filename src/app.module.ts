@@ -6,6 +6,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { CustomerModule } from './customer/customer.module';
 import { ServiceProviderModule } from './service_provider/service_provider.module';
 import { ServicesModule } from './services/services.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ServicesModule } from './services/services.module';
     CustomerModule,
     ServiceProviderModule,
     ServicesModule,
+    OrdersModule,
   ],
 })
 export class AppModule {}

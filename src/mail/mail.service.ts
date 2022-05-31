@@ -6,11 +6,7 @@ import { Customer } from '../customer/entities/customer.entity';
 export class MailService {
   constructor(private mailerService: MailerService) {}
 
-  async sendUserConfirmation(
-    user: Customer,
-    token: string,
-    forgetEmail: boolean,
-  ) {
+  async sendUserConfirmation(user: any, token: string, forgetEmail: boolean) {
     if (forgetEmail == true) {
       const url = `http://localhost:3000/customer/change-password/${token}`;
       await this.mailerService.sendMail({

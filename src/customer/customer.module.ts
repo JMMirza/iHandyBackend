@@ -8,12 +8,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserCustomerPersonalInfoRepository } from './repositories/personal_info.respository';
 import { UserCustomerRepository } from './repositories/customer.respository';
 import { JwtStrategy } from 'src/jwt/strategy/jwt-straregy';
+import { jwtConfigurations } from '../config/jwt.config';
 
 @Module({
   imports: [
     MailModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({}),
+    JwtModule.register(jwtConfigurations),
     TypeOrmModule.forFeature([
       UserCustomerRepository,
       UserCustomerPersonalInfoRepository,

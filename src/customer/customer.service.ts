@@ -36,6 +36,7 @@ export class CustomerService {
       secret: jwtConfigurations.secret,
       expiresIn: '300s',
     });
+
     await this.mailService.sendUserConfirmation(user, token, false);
     return { accessToken };
   }
