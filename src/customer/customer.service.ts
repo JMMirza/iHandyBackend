@@ -41,7 +41,9 @@ export class CustomerService {
     return { accessToken };
   }
 
-  async verifyUser(user: Customer, code: string) {
+  async verifyUser(username: string, code: string) {
+    const user = await this.userCustomerRepository.findOne({ username });
+
     const result = await this.userCustomerRepository.verifyUser(user, code);
     if (!result) {
       throw new UnauthorizedException('Verification code is not valid');
@@ -87,7 +89,8 @@ export class CustomerService {
     }
   }
 
-  async resendVerificationCode(user: Customer): Promise<object> {
+  async resendVerificationCode(username: string): Promise<object> {
+    const user = await this.userCustomerRepository.findOne({ username });
     const token = Math.floor(1000 + Math.random() * 9000);
     if (user.email_verified == false) {
       user.email_code = token;
@@ -106,10 +109,11 @@ export class CustomerService {
   }
 
   async addPersonalInfo(
-    user: Customer,
+    username: string,
     userCustomerPersonalInfoDto: UserCustomerPersonalInfoDto,
     profile_picture: string,
   ) {
+    const user = await this.userCustomerRepository.findOne({ username });
     if (user.personal_info == true) {
       throw new BadRequestException({
         msg: 'Your personal info is already added',

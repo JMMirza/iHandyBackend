@@ -41,7 +41,6 @@ export class CustomerController {
   @Post('/verify-code')
   @UseGuards(AuthGuard())
   test(@Req() req, @Body() code: string) {
-    console.log(req.user);
     return this.customerService.verifyUser(req.user, code);
   }
 
