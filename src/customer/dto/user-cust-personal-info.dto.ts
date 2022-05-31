@@ -1,10 +1,4 @@
-import {
-  IsDateString,
-  IsMobilePhone,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsMobilePhone, IsString, MaxLength } from 'class-validator';
 import { Gender } from '../gender.enum';
 
 export class UserCustomerPersonalInfoDto {

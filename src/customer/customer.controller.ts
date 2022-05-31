@@ -41,6 +41,7 @@ export class CustomerController {
   @Post('/verify-code')
   @UseGuards(AuthGuard())
   test(@Req() req, @Body() code: string) {
+    console.log(req);
     return this.customerService.verifyUser(req.user, code);
   }
 
@@ -68,7 +69,6 @@ export class CustomerController {
     @UploadedFile() file: any,
   ) {
     console.log(file);
-
     return this.customerService.addPersonalInfo(
       req.user,
       userCustomerPersonalInfoDto,
