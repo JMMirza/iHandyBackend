@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -12,6 +13,7 @@ import * as bcrypt from 'bcrypt';
 import { Services } from '../../services/entities/services.entity';
 import { ServiceProviderPersonalInfo } from './personal_info_service_provider.entity';
 import { Offer } from 'src/offers/entities/offer.entity';
+import { GuarantorInfo } from '../../guarantor_info/entities/guarantor_info.entity';
 
 @Entity()
 @Unique(['username', 'email'])
@@ -70,6 +72,13 @@ export class ServiceProvider extends BaseEntity {
 
   @OneToOne(() => Services, (service: Services) => service.serviceProvider)
   service: Services;
+
+  @OneToOne(
+    () => GuarantorInfo,
+    (guarantor_info: GuarantorInfo) => guarantor_info.guarantor_info,
+  )
+  @JoinColumn()
+  guarantor_info: GuarantorInfo;
 
   @OneToMany(() => Offer, (offer) => offer.serviceProvider)
   offers: Offer[];
