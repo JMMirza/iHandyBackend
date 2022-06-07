@@ -56,7 +56,7 @@ export class Customer extends BaseEntity {
     (customerPersonalInfo: CustomerPersonalInfo) =>
       customerPersonalInfo.customer,
   )
-  public customerPersonalInfo: CustomerPersonalInfo;
+  customerPersonalInfo: CustomerPersonalInfo;
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);

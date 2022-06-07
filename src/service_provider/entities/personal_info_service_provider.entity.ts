@@ -79,5 +79,5 @@ export class ServiceProviderPersonalInfo extends BaseEntity {
   // @Column()
   @OneToOne(() => ServiceProvider)
   @JoinColumn()
-  public serviceProvider: ServiceProvider;
+  serviceProvider: ServiceProvider;
 }

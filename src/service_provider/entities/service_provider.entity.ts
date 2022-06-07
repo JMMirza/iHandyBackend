@@ -2,8 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -12,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 // import { CustomerPersonalInfo } from './personal_info.entity';
 import { Services } from '../../services/entities/services.entity';
 import { ServiceProviderPersonalInfo } from './personal_info_service_provider.entity';
+import { Offer } from 'src/offers/entities/offer.entity';
 
 @Entity()
 @Unique(['username', 'email'])
@@ -40,25 +40,39 @@ export class ServiceProvider extends BaseEntity {
   @Column({ nullable: true, default: null })
   email_code: number;
 
+  @Column()
+  service_about: string;
+
+  @Column()
+  portfolio: string;
+
+  @Column()
+  portfolio1: string;
+
+  @Column()
+  portfolio2: string;
+
+  @Column()
+  portfolio3: string;
+
+  @Column()
+  portfolio4: string;
+
+  @Column()
+  portfolio5: string;
+
   @OneToOne(
     () => ServiceProviderPersonalInfo,
     (serviceProviderPersonalInfo: ServiceProviderPersonalInfo) =>
       serviceProviderPersonalInfo.serviceProvider,
   )
-  public serviceProviderPersonalInfo: ServiceProviderPersonalInfo;
+  serviceProviderPersonalInfo: ServiceProviderPersonalInfo;
 
-  @ManyToMany(() => Services, (services) => services.serviceProvider, {
-    cascade: true,
-  })
-  @JoinTable()
-  services: Services[];
+  @OneToOne(() => Services, (service: Services) => service.serviceProvider)
+  service: Services;
 
-  addServices(services: Services) {
-    if (this.services == null) {
-      this.services = new Array<Services>();
-    }
-    this.services.push(services);
-  }
+  @OneToMany(() => Offer, (offer) => offer.serviceProvider)
+  offers: Offer[];
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);

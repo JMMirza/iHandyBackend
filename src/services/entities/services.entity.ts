@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -37,15 +38,10 @@ export class Services extends BaseEntity {
   })
   public updated_at: Date;
 
-  @ManyToMany(
+  @OneToOne(
     () => ServiceProvider,
-    (serviceProvider) => serviceProvider.services,
+    (serviceProvider: ServiceProvider) => serviceProvider.service,
   )
+  @JoinColumn()
   serviceProvider: ServiceProvider;
-  //   @OneToOne(
-  //     () => CustomerPersonalInfo,
-  //     (customerPersonalInfo: CustomerPersonalInfo) =>
-  //       customerPersonalInfo.customer,
-  //   )
-  //   public customerPersonalInfo: CustomerPersonalInfo;
 }
