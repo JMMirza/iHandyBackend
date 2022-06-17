@@ -9,6 +9,10 @@ import { ServicesModule } from './services/services.module';
 import { OrdersModule } from './orders/orders.module';
 import { OffersModule } from './offers/offers.module';
 import { GuarantorInfoModule } from './guarantor_info/guarantor_info.module';
+import { PaystackModule } from 'nestjs-paystack';
+import { paystackConfiguration } from './config/paystack.config';
+import { AppGateway } from './app.gateway';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -23,6 +27,11 @@ import { GuarantorInfoModule } from './guarantor_info/guarantor_info.module';
     OrdersModule,
     OffersModule,
     GuarantorInfoModule,
+    PaystackModule.forRoot({
+      apiKey: paystackConfiguration.test_secret_key,
+    }),
+    ChatModule,
   ],
+  providers: [AppGateway],
 })
 export class AppModule {}
