@@ -27,10 +27,10 @@ import { ChatModule } from './chat/chat.module';
     OrdersModule,
     OffersModule,
     GuarantorInfoModule,
+    ChatModule,
     PaystackModule.forRoot({
       apiKey: paystackConfiguration.test_secret_key,
     }),
-    ChatModule,
   ],
   providers: [AppGateway],
 })
