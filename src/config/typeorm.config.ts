@@ -9,4 +9,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: 'd59b3mpn5suo4k',
   autoLoadEntities: true,
   synchronize: true,
+  url: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
 };
