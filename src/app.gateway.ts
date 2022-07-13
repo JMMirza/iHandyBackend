@@ -7,8 +7,8 @@ import {
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
-// import { AppService } from './';
 import { Chat } from './chat/entities/chat.entity';
+import { ChatService } from './chat/chat.service';
 
 @WebSocketGateway({
   cors: {
@@ -18,7 +18,7 @@ import { Chat } from './chat/entities/chat.entity';
 export class AppGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  constructor(private appService: AppService) {}
+  constructor(private appService: ChatService) {}
 
   @WebSocketServer() server: Server;
 
