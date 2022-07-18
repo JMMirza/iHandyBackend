@@ -1,5 +1,5 @@
 export const jwtConfigurations = {
-  secret: '',
+  secret: 'topSecret51',
   // signOptions: {
   //   expiresIn: 3600,
   // },
