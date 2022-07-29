@@ -56,6 +56,7 @@ export class ServiceProviderRepository extends Repository<ServiceProvider> {
   }
 
   async verifyUser(user: ServiceProvider, code: any) {
+    // console.log('user', user);
     if (user.email_verified == true) {
       return { msg: 'User is already verified' };
     } else {
@@ -75,6 +76,7 @@ export class ServiceProviderRepository extends Repository<ServiceProvider> {
     profile_picture: string,
     national_identity_front_img: string,
     national_identity_back_img: string,
+    photo_of_you_card: string,
   ) {
     const {
       surname,
@@ -100,6 +102,7 @@ export class ServiceProviderRepository extends Repository<ServiceProvider> {
     personal_info.serviceProvider = user;
     personal_info.national_identity_front_img = national_identity_front_img;
     personal_info.national_identity_back_img = national_identity_back_img;
+    personal_info.photo_of_you_card = photo_of_you_card;
     personal_info.address = address;
     personal_info.national_identity_number = national_identity_number;
     personal_info.bank_name = bank_name;

@@ -9,12 +9,16 @@ import {
   UseInterceptors,
   UploadedFile,
   Render,
+  UploadedFiles,
 } from '@nestjs/common';
 import { ServiceProviderService } from './service_provider.service';
 import { AuthCredentialsDto } from 'src/customer/dto/auth-credentials.dto';
 import { UserSigninDto } from 'src/customer/dto/user-signin.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName } from '../utils/custom-file-name.utils';
 import { imageFileFilter } from '../utils/file-uploading.utils';
@@ -39,8 +43,8 @@ export class ServiceProviderController {
 
   @Post('/verify-code')
   @UseGuards(AuthGuard())
-  test(@Req() req, @Body() code: string) {
-    console.log(req);
+  test(@Req() req: any, @Body() code: string) {
+    // console.log(req);
     return this.serviceProviderService.verifyUser(req.user, code);
   }
 
@@ -53,27 +57,43 @@ export class ServiceProviderController {
   @Post('/add-personal-info')
   @UseGuards(AuthGuard())
   @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './public/customer_uploads/server',
-        filename: editFileName,
-      }),
-      fileFilter: imageFileFilter,
-    }),
+    FileFieldsInterceptor(
+      [
+        { name: 'profile_picture', maxCount: 1 },
+        { name: 'photo_of_you_card', maxCount: 1 },
+        { name: 'national_identity_back_img', maxCount: 1 },
+        { name: 'national_identity_front_img', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination: './public/service_provider_uploads/server',
+          filename: editFileName,
+        }),
+        fileFilter: imageFileFilter,
+      },
+    ),
   )
   async uploadedFile(
     @Req() req: any,
     @Body(ValidationPipe)
     userCustomerPersonalInfoDto: ServiceProviderPersonalInfoDto,
-    @UploadedFile() file: any,
+    @UploadedFiles()
+    files: {
+      profile_picture?: Express.Multer.File[];
+      national_identity_front_img?: Express.Multer.File[];
+      national_identity_back_img?: Express.Multer.File[];
+      photo_of_you_card?: Express.Multer.File[];
+    },
   ) {
-    console.log(file);
-    return;
-    // return this.serviceProviderService.addPersonalInfo(
-    //   req.user,
-    //   userCustomerPersonalInfoDto,
-    //   file.filename,
-    // );
+    console.log(files.profile_picture[0].filename);
+    return this.serviceProviderService.addPersonalInfo(
+      req.user,
+      userCustomerPersonalInfoDto,
+      files.profile_picture[0].filename,
+      files.national_identity_front_img[0].filename,
+      files.national_identity_back_img[0].filename,
+      files.photo_of_you_card[0].filename,
+    );
   }
 
   @Post('/check-email')

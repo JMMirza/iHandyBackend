@@ -1,12 +1,14 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
+  UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 // import { CustomerPersonalInfo } from './personal_info.entity';
@@ -42,26 +44,18 @@ export class ServiceProvider extends BaseEntity {
   @Column({ nullable: true, default: null })
   email_code: number;
 
-  @Column()
-  service_about: string;
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  public created_at: Date;
 
-  @Column()
-  portfolio: string;
-
-  @Column()
-  portfolio1: string;
-
-  @Column()
-  portfolio2: string;
-
-  @Column()
-  portfolio3: string;
-
-  @Column()
-  portfolio4: string;
-
-  @Column()
-  portfolio5: string;
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  public updated_at: Date;
 
   @OneToOne(
     () => ServiceProviderPersonalInfo,
@@ -77,7 +71,6 @@ export class ServiceProvider extends BaseEntity {
     () => GuarantorInfo,
     (guarantor_info: GuarantorInfo) => guarantor_info.guarantor_info,
   )
-  @JoinColumn()
   guarantor_info: GuarantorInfo;
 
   @OneToMany(() => Offer, (offer) => offer.serviceProvider)

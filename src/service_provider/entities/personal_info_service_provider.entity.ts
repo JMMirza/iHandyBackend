@@ -61,7 +61,7 @@ export class ServiceProviderPersonalInfo extends BaseEntity {
   account_holder_name: string;
 
   @Column()
-  bank_verification_num: number;
+  bank_verification_num: string;
 
   @CreateDateColumn({
     type: 'timestamp',

@@ -43,5 +43,5 @@ export class ServiceProviderPersonalInfoDto {
   account_holder_name: string;
 
   @IsString()
-  bank_verification_num: number;
+  bank_verification_num: string;
 }

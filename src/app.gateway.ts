@@ -29,17 +29,17 @@ export class AppGateway
   }
 
   afterInit(server: Server) {
-    console.log(server);
+    // console.log(server);
     //Do stuffs
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Disconnected: ${client.id}`);
+    // console.log(`Disconnected: ${client.id}`);
     //Do stuffs
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log(`Connected ${client.id}`);
+    // console.log(`Connected ${client.id}`);
     //Do stuffs
   }
 }

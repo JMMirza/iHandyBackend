@@ -40,7 +40,8 @@ export class ServiceProviderService {
     return { accessToken };
   }
 
-  async verifyUser(user: ServiceProvider, code: string) {
+  async verifyUser(username: string, code: string) {
+    const user = await this.serviceProviderRepository.findOne({ username });
     const result = await this.serviceProviderRepository.verifyUser(user, code);
     if (!result) {
       throw new UnauthorizedException('Verification code is not valid');
@@ -105,24 +106,26 @@ export class ServiceProviderService {
   }
 
   async addPersonalInfo(
-    user: ServiceProvider,
+    username: string,
     userCustomerPersonalInfoDto: ServiceProviderPersonalInfoDto,
-    profile_picture: string,
-    national_identity_front_img: string,
-    national_identity_back_img: string,
+    profile_picture,
+    national_identity_front_img,
+    national_identity_back_img,
+    photo_of_you_card,
   ) {
+    const user = await this.serviceProviderRepository.findOne({ username });
     if (user.personal_info == true) {
       throw new BadRequestException({
         msg: 'Your personal info is already added',
       });
     }
-    // this.userCustomerPersonalInfoRepository.addPersonalInfo()
     return this.serviceProviderRepository.addPersonalInfo(
       user,
       userCustomerPersonalInfoDto,
       profile_picture,
       national_identity_front_img,
       national_identity_back_img,
+      photo_of_you_card,
     );
   }
 
