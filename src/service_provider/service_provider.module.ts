@@ -8,6 +8,7 @@ import { MailModule } from 'src/mail/mail.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/jwt/strategy/jwt-straregy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JwtStrategy } from 'src/jwt/strategy/jwt-straregy';
       ServiceProviderRepository,
       ServiceProviderPersonalInfoRepository,
     ]),
+    ConfigModule.forRoot(),
   ],
   providers: [ServiceProviderService, JwtStrategy],
   controllers: [ServiceProviderController],

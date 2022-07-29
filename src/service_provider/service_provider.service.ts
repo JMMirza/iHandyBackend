@@ -36,7 +36,12 @@ export class ServiceProviderService {
       secret: jwtConfigurations.secret,
       expiresIn: '300s',
     });
-    await this.mailService.sendUserConfirmation(user, token, false);
+    await this.mailService.sendUserConfirmation(
+      user,
+      token,
+      false,
+      'service_provider',
+    );
     return { accessToken };
   }
 
@@ -96,6 +101,7 @@ export class ServiceProviderService {
         user,
         token.toString(),
         false,
+        'service_provider',
       );
       return {
         msg: 'Verfication code send successfully. Please check your email again.',
@@ -137,7 +143,12 @@ export class ServiceProviderService {
       secret: jwtConfigurations.secret,
       expiresIn: '600s',
     });
-    await this.mailService.sendUserConfirmation(user, accessToken, true);
+    await this.mailService.sendUserConfirmation(
+      user,
+      accessToken,
+      true,
+      'service_provider',
+    );
     return { msg: 'Email sent successfully' };
   }
 

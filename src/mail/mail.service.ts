@@ -6,19 +6,38 @@ import { Customer } from '../customer/entities/customer.entity';
 export class MailService {
   constructor(private mailerService: MailerService) {}
 
-  async sendUserConfirmation(user: any, token: string, forgetEmail: boolean) {
+  async sendUserConfirmation(
+    user: any,
+    token: string,
+    forgetEmail: boolean,
+    user_type: string,
+  ) {
     if (forgetEmail == true) {
-      const url = `http://localhost:3000/customer/change-password/${token}`;
-      await this.mailerService.sendMail({
-        to: user.email,
-        // from: '"Support Team" <support@example.com>', // override default from
-        subject: 'Welcome to iHandy App! Change your password',
-        template: 'templates/confirmation.hbs', // `.hbs` extension is appended automatically
-        context: {
-          name: user.username,
-          code: url,
-        },
-      });
+      if (user_type == 'service_provider') {
+        const url = `${process.env.URL}/service-provider/change-password/${token}`;
+        await this.mailerService.sendMail({
+          to: user.email,
+          // from: '"Support Team" <support@example.com>', // override default from
+          subject: 'Welcome to iHandy App! Change your password',
+          template: 'templates/confirmation.hbs', // `.hbs` extension is appended automatically
+          context: {
+            name: user.username,
+            code: url,
+          },
+        });
+      } else {
+        const url = `${process.env.URL}/customer/change-password/${token}`;
+        await this.mailerService.sendMail({
+          to: user.email,
+          // from: '"Support Team" <support@example.com>', // override default from
+          subject: 'Welcome to iHandy App! Change your password',
+          template: 'templates/confirmation.hbs', // `.hbs` extension is appended automatically
+          context: {
+            name: user.username,
+            code: url,
+          },
+        });
+      }
     } else {
       await this.mailerService.sendMail({
         to: user.email,
