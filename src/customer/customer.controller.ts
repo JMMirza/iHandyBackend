@@ -28,7 +28,7 @@ export class CustomerController {
 
   @Post('/signup')
   signUp(
-    @Body(ValidationPipe) authCredentialDto: AuthCredentialsDto,
+    @Body() authCredentialDto: AuthCredentialsDto,
   ): Promise<{ accessToken: string }> {
     return this.customerService.signup(authCredentialDto);
   }

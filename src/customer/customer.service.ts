@@ -10,7 +10,6 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from '../jwt/payload/jwt-payload.interface';
 import { MailService } from '../mail/mail.service';
-import { Customer } from './entities/customer.entity';
 import { UserCustomerPersonalInfoDto } from './dto/user-cust-personal-info.dto';
 import { UserSigninDto } from './dto/user-signin.dto';
 import { jwtConfigurations } from 'src/config/jwt.config';
@@ -34,7 +33,7 @@ export class CustomerService {
     const payload: JwtPayload = { username };
     const accessToken = await this.jwtService.sign(payload, {
       secret: jwtConfigurations.secret,
-      expiresIn: '300s',
+      // expiresIn: '300s',
     });
 
     await this.mailService.sendUserConfirmation(user, token, false, 'customer');
@@ -65,7 +64,7 @@ export class CustomerService {
       if (user.personal_info == false) {
         const accessToken = this.jwtService.sign(payload, {
           secret: jwtConfigurations.secret,
-          expiresIn: '1hr',
+          // expiresIn: '1hr',
         });
         throw new BadRequestException({
           accessToken: accessToken,
@@ -74,13 +73,13 @@ export class CustomerService {
       }
       const accessToken = this.jwtService.sign(payload, {
         secret: jwtConfigurations.secret,
-        expiresIn: '1hr',
+        // expiresIn: '1hr',
       });
       return { accessToken: accessToken, msg: 'User Signed in successfully' };
     } else {
       const accessToken = this.jwtService.sign(payload, {
         secret: jwtConfigurations.secret,
-        expiresIn: '300s',
+        // expiresIn: '300s',
       });
       throw new BadRequestException({
         accessToken: accessToken,
@@ -134,7 +133,7 @@ export class CustomerService {
     const payload: JwtPayload = { username };
     const accessToken = this.jwtService.sign(payload, {
       secret: jwtConfigurations.secret,
-      expiresIn: '600s',
+      // expiresIn: '600s',
     });
     await this.mailService.sendUserConfirmation(
       user,
