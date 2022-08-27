@@ -12,7 +12,7 @@ export class UserCustomerPersonalInfoDto {
 
   // @IsString()
   // @MaxLength(20)
-  // othernames: string;
+  othernames: string;
 
   // @IsString()
   date_of_birth: string;
