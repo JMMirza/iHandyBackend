@@ -12,7 +12,6 @@ import * as bcrypt from 'bcrypt';
 import { CustomerPersonalInfo } from './personal_info.entity';
 
 @Entity()
-@Unique(['username', 'email'])
 export class Customer extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,7 +19,7 @@ export class Customer extends BaseEntity {
   @Column()
   username: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()

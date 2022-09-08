@@ -68,14 +68,14 @@ export class CustomerService {
         });
         throw new BadRequestException({
           accessToken: accessToken,
-          msg: 'You must have to enter personal information',
+          info: false,
         });
       }
       const accessToken = this.jwtService.sign(payload, {
         secret: jwtConfigurations.secret,
         // expiresIn: '1hr',
       });
-      return { accessToken: accessToken, msg: 'User Signed in successfully' };
+      return { accessToken: accessToken, info: true };
     } else {
       const accessToken = this.jwtService.sign(payload, {
         secret: jwtConfigurations.secret,
@@ -83,6 +83,8 @@ export class CustomerService {
       });
       throw new BadRequestException({
         accessToken: accessToken,
+        info: false,
+        email_verify: false,
         msg: 'User must have to verify its email',
       });
     }

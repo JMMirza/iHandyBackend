@@ -35,7 +35,7 @@ export class ServiceProviderRepository extends Repository<ServiceProvider> {
       return new_user;
     } catch (error) {
       if (error.code === '23505') {
-        throw new ConflictException('Username already exists');
+        throw new ConflictException('User already exists');
       } else {
         throw new InternalServerErrorException(error);
       }
