@@ -10,7 +10,6 @@ import {
   Req,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -18,15 +17,15 @@ import { AuthGuard } from '@nestjs/passport';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
-  }
+  // @Post()
+  // create(@Body() createOrderDto: CreateOrderDto) {
+  //   return this.ordersService.create(createOrderDto);
+  // }
 
-  @Get()
-  findAll() {
-    return this.ordersService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.ordersService.findAll();
+  // }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {
@@ -38,14 +37,15 @@ export class OrdersController {
     return this.ordersService.update(+id, updateOrderDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ordersService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.ordersService.remove(+id);
+  // }
 
   @Get()
   @UseGuards(AuthGuard())
   getUserOrders(@Req() req) {
+    console.log('hello');
     return this.ordersService.findOne(req.user);
   }
 }

@@ -157,4 +157,8 @@ export class CustomerService {
       throw new InternalServerErrorException({ msg: err.message });
     }
   }
+
+  async checkCustomer(username: string) {
+    return this.userCustomerRepository.checkCustomer(username);
+  }
 }

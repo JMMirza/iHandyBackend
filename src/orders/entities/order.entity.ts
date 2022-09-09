@@ -6,12 +6,11 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Status } from '../status.enum';
 
 @Entity()
 export class Order extends BaseEntity {
@@ -20,6 +19,9 @@ export class Order extends BaseEntity {
 
   @Column()
   price: number;
+
+  @Column()
+  status: Status;
 
   @OneToOne(() => Customer)
   @JoinColumn()

@@ -24,6 +24,6 @@ import { ConfigModule } from '@nestjs/config';
   ],
   controllers: [CustomerController],
   providers: [CustomerService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, CustomerService],
 })
 export class CustomerModule {}

@@ -106,6 +106,14 @@ export class UserCustomerRepository extends Repository<Customer> {
     return user;
   }
 
+  async checkCustomer(username: string): Promise<Customer> {
+    const user = await this.findOne({ username });
+    if (!user) {
+      throw new BadRequestException({ msg: 'User not found' });
+    }
+    return user;
+  }
+
   private async hashPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
   }
