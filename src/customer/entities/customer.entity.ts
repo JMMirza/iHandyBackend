@@ -3,6 +3,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -10,6 +13,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CustomerPersonalInfo } from './personal_info.entity';
+import { Order } from 'src/orders/entities/order.entity';
 
 @Entity()
 export class Customer extends BaseEntity {

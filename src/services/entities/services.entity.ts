@@ -1,3 +1,4 @@
+import { Order } from 'src/orders/entities/order.entity';
 import {
   BaseEntity,
   Column,
@@ -44,4 +45,8 @@ export class Services extends BaseEntity {
   )
   @JoinColumn()
   serviceProvider: ServiceProvider;
+
+  @OneToOne(() => Order, (order: Order) => order.service)
+  @JoinColumn()
+  order: Order;
 }

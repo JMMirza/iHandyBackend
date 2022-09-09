@@ -67,6 +67,7 @@ export class CustomerService {
           // expiresIn: '1hr',
         });
         throw new BadRequestException({
+          user: user,
           accessToken: accessToken,
           info: false,
         });
@@ -75,7 +76,7 @@ export class CustomerService {
         secret: jwtConfigurations.secret,
         // expiresIn: '1hr',
       });
-      return { accessToken: accessToken, info: true };
+      return { user: user, accessToken: accessToken, info: true };
     } else {
       const accessToken = this.jwtService.sign(payload, {
         secret: jwtConfigurations.secret,

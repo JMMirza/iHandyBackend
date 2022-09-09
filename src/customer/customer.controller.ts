@@ -68,7 +68,7 @@ export class CustomerController {
     userCustomerPersonalInfoDto: UserCustomerPersonalInfoDto,
     @UploadedFile() file: any,
   ) {
-    console.log(file);
+    console.log(file, userCustomerPersonalInfoDto);
     return this.customerService.addPersonalInfo(
       req.user,
       userCustomerPersonalInfoDto,
