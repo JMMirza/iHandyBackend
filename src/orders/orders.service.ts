@@ -28,7 +28,7 @@ export class OrdersService {
     const customer = await this.customerService.checkCustomer(user_name);
     const orders = this.orderRepository.findCustomerOrders(customer);
     if (orders) {
-      return { orders: orders };
+      return { orders: [] };
     }
     return { orders: orders, msg: 'No Orders Found' };
   }
