@@ -21,6 +21,7 @@ import { imageFileFilter } from 'src/utils/file-uploading.utils';
 import { UserCustomerPersonalInfoDto } from './dto/user-cust-personal-info.dto';
 import { UserSigninDto } from './dto/user-signin.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
+import { ChangePasswordDto } from './dto/change_password.dto';
 
 @Controller('customer')
 export class CustomerController {
@@ -43,6 +44,18 @@ export class CustomerController {
   test(@Req() req, @Body() code: string) {
     console.log(req);
     return this.customerService.verifyUser(req.user, code);
+  }
+
+  @Post('/update-password')
+  @UseGuards(AuthGuard())
+  changePassword(@Req() req, @Body() changePasswordDto: ChangePasswordDto) {
+    console.log(changePasswordDto, req.user);
+    const { password, confirm_password } = changePasswordDto;
+    return this.customerService.changePassword(
+      req.user,
+      password,
+      confirm_password,
+    );
   }
 
   @Get('/resend-verification-code')

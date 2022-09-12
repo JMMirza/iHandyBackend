@@ -44,7 +44,7 @@ export class UserCustomerRepository extends Repository<Customer> {
     const { email, password } = userSigninDto;
     const user = await this.findOne({ email });
 
-    if (user && user.validatePassword(password)) {
+    if (user && (await user.validatePassword(password))) {
       return user;
     } else {
       return null;
@@ -116,5 +116,20 @@ export class UserCustomerRepository extends Repository<Customer> {
 
   private async hashPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
+  }
+
+  async changePassword(
+    username: string,
+    password: string,
+    confirm_password: string,
+  ) {
+    const user = await this.findOne({ username });
+    if (user && (await user.validatePassword(password))) {
+      const salt = await bcrypt.genSalt();
+      user.password = await this.hashPassword(confirm_password, salt);
+      await user.save();
+      return user;
+    }
+    throw new BadRequestException({ msg: 'Invalid credentials' });
   }
 }

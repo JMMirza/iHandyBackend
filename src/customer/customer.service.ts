@@ -161,4 +161,17 @@ export class CustomerService {
   async checkCustomer(username: string) {
     return this.userCustomerRepository.checkCustomer(username);
   }
+
+  async changePassword(
+    username: string,
+    password: string,
+    confirm_password: string,
+  ) {
+    const user = await this.userCustomerRepository.changePassword(
+      username,
+      password,
+      confirm_password,
+    );
+    return { msg: 'Password Changed successfully', user: user };
+  }
 }
